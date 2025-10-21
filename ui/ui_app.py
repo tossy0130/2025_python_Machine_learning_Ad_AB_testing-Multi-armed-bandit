@@ -7,6 +7,23 @@ API_BASE = "http://127.0.0.1:8000"
 st.set_page_config(page_title="アドバンディットダッシュボード", layout="wide")
 st.title("📈 アドバンディットダッシュボード (トンプソンサンプリング)")
 
+# --- Sidebar: API設定
+with st.sidebar:
+    st.header("Settings")
+    API_BASE = st.text_input("API base URL", os.environ.get("API_BASE", DEFAULT_API))
+    st.caption("例) http://127.0.0.1:8000")
+
+def safe_get_json(url: str, timeout: float = 3.0):
+    try:
+        r = requests.get(url, timeout=timeout)
+        r.raise_for_status()
+        return r.json()  # ここでJSONでなければ例外に
+    except requests.exceptions.JSONDecodeError:
+        st.error(f"APIがJSONを返していません: {url}\n本文: {r.text[:200]}...")
+    except requests.exceptions.RequestException as e:
+        st.warning(f"APIに接続できません: {url}\n{e}")
+    return None
+
 col1, col2 = st.columns([2, 1])
 
 with col1:

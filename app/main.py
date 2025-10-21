@@ -10,6 +10,10 @@ class ReportIn(BaseModel):
     arm_id: int = Field(..., ge=0)
     reward: int = Field(..., ge=0, le=1)
     
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+    
 @app.on_event("startup")
 def startup():
     init_db() # Sqllite 初期化処理
