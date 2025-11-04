@@ -51,7 +51,7 @@ def fetch_arms() -> List[Tuple[int, str, int, int, int, int]]:
   conn = get_conn()
   cur = conn.cursor()
   
-  cur.execute("SELECT arm_id, label, alpha, beta, impressionsm, conversions FROM arms ORDER BY arm_id")
+  cur.execute("SELECT arm_id, label, alpha, beta, impressions, conversions FROM arms ORDER BY arm_id")
   rows = cur.fetchall()
   conn.close()
   
